@@ -1,0 +1,20 @@
+{
+  "name": "ya-task-manager",
+  "version": "0.0.0",
+  "description": "test task",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ifozest/ya-task-manager"
+  },
+  "author": "Ifozest",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ifozest/ya-task-manager/issues"
+  },
+  "dependencies": {
+
+  },
+  "devDependencies": {
+    "gulp": "3.8.6"
+  }
+}
