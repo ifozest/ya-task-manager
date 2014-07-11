@@ -1,0 +1,11 @@
+{
+  "name": "ya-task-manager",
+  "description": "test task",
+  "version": "0.0.0",
+  "dependencies": {
+    "jquery": "2.1.0",
+    "underscore": "1.6.0",
+    "backbone": "1.1.2",
+    "backbone.marionette": "2.0.1"
+  }
+}
