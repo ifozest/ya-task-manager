@@ -4,6 +4,8 @@ var gulp = require('gulp')
   , rimraf = require('gulp-rimraf')
   , source = require('vinyl-source-stream')
   , browserify = require('gulp-browserify')
+  , plumber = require('gulp-plumber')
+  , concat = require('gulp-concat')
   , jshint = require('gulp-jshint');
 
 
@@ -39,6 +41,40 @@ gulp.task('clean', function () {
 gulp.task('copy', function () {
   gulp.src('./src/**/*.html')
     .pipe(gulp.dest('./public'));
+});
+
+gulp.task('scripts', function() {
+  //single entry point to browserify
+  gulp.src('./src/js/app.js')
+    .pipe(plumber())
+    .pipe(browserify({
+      shim: {
+        jquery : {
+          path: './vendor/jquery/dist/jquery.js',
+          exports: '$'
+        },
+        underscore: {
+          path: './vendor/underscore/underscore.js',
+          exports: '_'
+        },
+        Backbone: {
+          path: './vendor/backbone/backbone.js',
+          exports: 'Backbone'
+        },
+        Marionette: {
+          path: './vendor/backbone.marionette/lib/backbone.marionette.js',
+          exports: 'Marionette'
+        }
+      }
+    }))
+//    .pipe(concat('app.js'))
+    .pipe(gulp.dest('./public'))
+});
+
+gulp.task('watch', function () {
+
+  gulp.watch('./src/js/**/*.js', ['scripts']);
+
 });
 
 
