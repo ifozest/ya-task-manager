@@ -4,7 +4,8 @@ var gulp = require('gulp')
   , rimraf = require('gulp-rimraf')
   , source = require('vinyl-source-stream')
   , browserify = require('browserify')
-  , plumber = require('gulp-plumber')
+  , handlebars = require('gulp-handlebars')
+  , defineModule = require('gulp-define-module')
   , concat = require('gulp-concat')
   , jshint = require('gulp-jshint');
 
@@ -43,24 +44,31 @@ gulp.task('copy', function () {
     .pipe(gulp.dest('./public'));
 });
 
-gulp.task('browserify', function() {
-  var b = browserify('./src/js/app.js');
+gulp.task('browserify', function () {
+  var bundle = browserify('./src/js/app.js');
 
-  return b.bundle()
-      .on('error', function (err) {
-        console.log(err.toString());
-        this.emit('end');
-      })
-      .pipe(source('app.js'))
-      .pipe(gulp.dest('./public/'));
+  return bundle.bundle()
+    .on('error', function (err) {
+      console.log(err.toString());
+      this.emit('end');
+    })
+    .pipe(source('app.js'))
+    .pipe(gulp.dest('./public/'));
 });
+
+gulp.task('handlebars', function () {
+  gulp.src(['./src/templates/**/*.html'])
+    .pipe(handlebars())
+    .pipe(defineModule('commonjs'))
+    .pipe(gulp.dest('./src/templates'));
+});
+
 
 gulp.task('watch', function () {
 
   gulp.watch('./src/js/**/*.js', ['scripts']);
 
 });
-
 
 
 //TODO test, concat + minify js tasks
