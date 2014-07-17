@@ -11,7 +11,11 @@
   "bugs": {
     "url": "https://github.com/ifozest/ya-task-manager/issues"
   },
-  "dependencies": {},
+  "dependencies": {
+    "underscore": "~1.6.0",
+    "backbone": "~1.1.2",
+    "jquery": "~2.1.1"
+  },
   "devDependencies": {
     "gulp": "3.8.6",
     "gulp-jshint": "1.7.1",
@@ -28,11 +32,8 @@
     "gulp-browserify": "~0.5.0"
   },
   "browser": {
-    "jquery": "./vendor/jquery/dist/jquery.js",
-    "underscore": "./vendor/underscore/underscore.js",
-    "backbone": "./vendor/backbone/backbone.js",
-    "backbone.babysitter": "./vendor/backbone.babysitter/lib/backbone.babysitter.js",
-    "backbone.wreqr": "./vendor/backbone.wreqr/lib/backbone.wreqr.js",
-    "backbone.marionette": "./vendor/backbone.marionette/lib/backbone.marionette.js"
+    "jquery": "./node_modules/jquery/dist/jquery.js",
+    "underscore": "./node_modules/underscore/underscore.js",
+    "backbone": "./node_modules/backbone/backbone.js"
   }
 }
