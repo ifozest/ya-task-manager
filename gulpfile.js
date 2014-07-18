@@ -6,6 +6,7 @@ var gulp = require('gulp')
   , browserify = require('browserify')
   , handlebars = require('gulp-handlebars')
   , defineModule = require('gulp-define-module')
+  , replace = require('gulp-replace')
   , concat = require('gulp-concat')
   , jshint = require('gulp-jshint');
 
@@ -47,7 +48,7 @@ gulp.task('copy', function () {
 gulp.task('browserify', function () {
   var bundle = browserify('./src/js/app.js');
 
-  return bundle.bundle()
+  return bundle.bundle({debug: true})
     .on('error', function (err) {
       console.log(err.toString());
       this.emit('end');
@@ -60,6 +61,7 @@ gulp.task('handlebars', function () {
   gulp.src(['./src/templates/**/*.html'])
     .pipe(handlebars())
     .pipe(defineModule('commonjs'))
+    .pipe(replace(/require\(["']handlebars["']\)/, 'require("handlebars")["default"]'))
     .pipe(gulp.dest('./src/templates'));
 });
 
