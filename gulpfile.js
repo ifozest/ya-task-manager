@@ -10,10 +10,20 @@ var gulp = require('gulp')
   , concat = require('gulp-concat')
   , jshint = require('gulp-jshint');
 
+var paths = {
+  dest: 'public',
+  htmlSrc: 'src/**/*.html',
+  jshintrc: '.jshintrc',
+  jsSrc: 'src/js/**/*.js',
+  templatesHbsSrc: 'src/templates/**/*.hbs',
+  templatesJsSrc: 'src/templates/**/*.js',
+  templatesDest: 'src/templates'
+};
+
 
 gulp.task('jshint', function () {
-  gulp.src('./src/js/**/*.js', {lookup: false})
-    .pipe(jshint('.jshintrc'))
+  gulp.src(paths.jsSrc, {lookup: false})
+    .pipe(jshint(paths.jshintrc))
     .pipe(jshint.reporter('jshint-stylish'))
     .pipe(jshint.reporter('fail'))
     .on('error', function (err) {
@@ -23,27 +33,24 @@ gulp.task('jshint', function () {
 });
 
 gulp.task('minify-html', function () {
-  var htmlSrc = './src/**/*.html'
-    , htmlDest = './public';
-
-  gulp.src(htmlSrc)
-    .pipe(changed(htmlDest))
+  gulp.src(paths.htmlSrc)
+    .pipe(changed(paths.dest))
     .pipe(minifyHTML())
-    .pipe(gulp.dest(htmlDest));
+    .pipe(gulp.dest(paths.dest));
 });
 
 /**
  * removes public folder
  */
 gulp.task('clean', function () {
-  gulp.src('./public', {read: false})
+  gulp.src(paths.dest, {read: false})
     .pipe(rimraf());
 });
 
 gulp.task('copy', function () {
-  gulp.src('./src/**/*.html')
-    .pipe(changed('./public'))
-    .pipe(gulp.dest('./public'));
+  gulp.src(paths.htmlSrc)
+    .pipe(changed(paths.dest))
+    .pipe(gulp.dest(paths.dest));
 });
 
 gulp.task('browserify', function () {
@@ -55,21 +62,21 @@ gulp.task('browserify', function () {
       this.emit('end');
     })
     .pipe(source('app.js'))
-    .pipe(gulp.dest('./public/'));
+    .pipe(gulp.dest(paths.dest));
 });
 
 gulp.task('handlebars', function () {
-  gulp.src(['./src/templates/**/*.hbs'])
+  gulp.src(paths.templatesHbsSrc)
     .pipe(handlebars())
     .pipe(defineModule('commonjs'))
     .pipe(replace(/require\(["']handlebars["']\)/, 'require("handlebars")["default"]'))
-    .pipe(gulp.dest('./src/templates'));
+    .pipe(gulp.dest(paths.templatesDest));
 });
 
 gulp.task('watch', function () {
-  gulp.watch('src/templates/**/*.hbs', ['handlebars']);
-  gulp.watch('src/**/*.js', ['browserify']);
-  gulp.watch('src/**/*.html', ['copy']);
+  gulp.watch(paths.templatesHbsSrc, ['handlebars']);
+  gulp.watch([paths.jsSrc, paths.templatesHbsSrc], ['browserify']);
+  gulp.watch(paths.htmlSrc, ['copy']);
 });
 
 
