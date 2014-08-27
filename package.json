@@ -12,11 +12,12 @@
     "url": "https://github.com/ifozest/ya-task-manager/issues"
   },
   "dependencies": {
-    "underscore": "~1.6.0",
     "backbone": "~1.1.2",
-    "jquery": "~2.1.1",
+    "backbone.localstorage": "^1.1.13",
+    "backbone.marionette": "^2.1.0",
     "handlebars": "~1.3.0",
-    "backbone.localstorage": "^1.1.13"
+    "jquery": "~2.1.1",
+    "underscore": "~1.6.0"
   },
   "devDependencies": {
     "browserify": "~4.2.0",
@@ -37,6 +38,7 @@
     "underscore": "./node_modules/underscore/underscore.js",
     "backbone": "./node_modules/backbone/backbone.js",
     "handlebars": "./node_modules/handlebars/dist/cjs/handlebars.js",
-    "localStorage": "./node_modules/backbone.localstorage/backbone.localStorage.js"
+    "localStorage": "./node_modules/backbone.localstorage/backbone.localStorage.js",
+    "marionette": "./node_modules/backbone.marionette/lib/backbone.marionette.js"
   }
 }
