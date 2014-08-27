@@ -7,7 +7,7 @@ var gulp = require('gulp')
   , handlebars = require('gulp-handlebars')
   , defineModule = require('gulp-define-module')
   , replace = require('gulp-replace')
-  , concat = require('gulp-concat')
+  , webserver = require('gulp-webserver')
   , jshint = require('gulp-jshint');
 
 var paths = {
@@ -22,13 +22,14 @@ var paths = {
 
 
 gulp.task('jshint', function () {
-  gulp.src(paths.jsSrc, {lookup: false})
+  gulp.src(paths.jsSrc)
     .pipe(jshint(paths.jshintrc))
     .pipe(jshint.reporter('jshint-stylish'))
     .pipe(jshint.reporter('fail'))
     .on('error', function (err) {
       console.error(err.message);
       this.emit('end');
+//      process.exit(1);
     });
 });
 
@@ -73,6 +74,13 @@ gulp.task('handlebars', function () {
     .pipe(gulp.dest(paths.templatesDest));
 });
 
+gulp.task('server', function () {
+  gulp.src('public')
+    .pipe(webserver({
+      livereload: true
+    }));
+});
+
 gulp.task('watch', function () {
   gulp.watch(paths.templatesHbsSrc, ['handlebars']);
   gulp.watch([paths.jsSrc, paths.templatesHbsSrc], ['browserify']);
@@ -81,4 +89,4 @@ gulp.task('watch', function () {
 
 
 //TODO test, concat + minify js tasks
-gulp.task('test', ['clean', 'jshint', 'minify-html']);
+gulp.task('test', ['clean', 'jshint', 'handlebars', 'browserify']);
