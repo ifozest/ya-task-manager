@@ -82,7 +82,7 @@ gulp.task('server', function () {
 
 gulp.task('watch', function () {
   gulp.watch(paths.templatesHbsSrc, ['handlebars']);
-  gulp.watch([paths.jsSrc, paths.templatesHbsSrc], ['browserify']);
+  gulp.watch([paths.jsSrc, paths.templatesJsSrc], ['browserify']);
   gulp.watch(paths.htmlSrc, ['copy']);
 });
 
