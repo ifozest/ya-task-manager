@@ -1,9 +1,13 @@
-var Backbone = require('backbone');
+var Backbone = require('backbone')
+  , $ = require('jquery');
+Backbone.$ = $; // fix
+var Marionette = require('marionette');
 
 
+var app = new Marionette.Application();
 
+app.addInitializer(function () {
+  console.log('i was started!');
+});
 
-
-var Handlebars = require("handlebars");
-console.log(require('handlebars'));
-var c = require('../templates/a.js');
+app.start();
