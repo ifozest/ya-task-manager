@@ -1,7 +1,7 @@
 var gulp = require('gulp')
   , changed = require('gulp-changed')
   , minifyHTML = require('gulp-minify-html')
-  , rimraf = require('gulp-rimraf')
+  , del = require('del')
   , source = require('vinyl-source-stream')
   , browserify = require('browserify')
   , handlebars = require('gulp-handlebars')
@@ -44,8 +44,7 @@ gulp.task('minify-html', function () {
  * removes public folder
  */
 gulp.task('clean', function () {
-  gulp.src(paths.dest, {read: false})
-    .pipe(rimraf());
+  del.sync(paths.dest, {force:true});
 });
 
 gulp.task('copy', function () {
