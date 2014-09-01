@@ -15,9 +15,9 @@ var paths = {
   htmlSrc: 'src/**/*.html',
   jshintrc: '.jshintrc',
   jsSrc: 'src/js/**/*.js',
-  templatesHbsSrc: 'src/templates/**/*.hbs',
-  templatesJsSrc: 'src/templates/**/*.js',
-  templatesDest: 'src/templates'
+  templatesHbsSrc: 'src/js/**/template/**/*.hbs',
+  templatesJsSrc: 'src/js/**/template/**/*.js',
+  templatesDest: 'src/js'
 };
 
 
@@ -81,9 +81,9 @@ gulp.task('server', function () {
 });
 
 gulp.task('watch', function () {
-  gulp.watch(paths.templatesHbsSrc, ['handlebars']);
+  gulp.watch([paths.templatesHbsSrc], ['handlebars']);
   gulp.watch([paths.jsSrc, paths.templatesJsSrc], ['browserify']);
-  gulp.watch(paths.htmlSrc, ['copy']);
+  gulp.watch([paths.htmlSrc], ['copy']);
 });
 
 
