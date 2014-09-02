@@ -15,7 +15,7 @@ var paths = {
   htmlSrc: 'src/**/*.html',
   jshintrc: '.jshintrc',
   jsSrc: 'src/js/**/*.js',
-  templatesHbsSrc: 'src/js/**/template/**/*.hbs',
+  templatesHbsSrc: 'src/js/**/*.hbs',
   templatesJsSrc: 'src/js/**/template/**/*.js',
   templatesDest: 'src/js'
 };
@@ -82,10 +82,11 @@ gulp.task('server', function () {
 
 gulp.task('watch', function () {
   gulp.watch([paths.templatesHbsSrc], ['handlebars']);
-  gulp.watch([paths.jsSrc, paths.templatesJsSrc], ['browserify']);
+  gulp.watch([paths.jsSrc], ['browserify']);
   gulp.watch([paths.htmlSrc], ['copy']);
 });
 
+gulp.task('start-dev', ['handlebars', 'copy', 'browserify', 'watch']);
 
 //TODO test, concat + minify js tasks
 gulp.task('test', ['clean', 'jshint', 'handlebars', 'browserify']);
