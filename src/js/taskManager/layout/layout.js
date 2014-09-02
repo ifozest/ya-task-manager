@@ -8,5 +8,15 @@ module.exports = Marionette.LayoutView.extend({
     awaitingTasks: '#awaitingTasks',
     inProgressTasks: '#inProgressTasks',
     completedTasks: '#completedTasks'
+  },
+  ui: {
+    button: '#createTask'
+  },
+  events: {
+    'click @ui.button': 'pressButton'
+  },
+  pressButton: function () {
+    //TODO pass in controller
+    //TODO create new task
   }
 });
