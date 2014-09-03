@@ -1,7 +1,9 @@
 var Backbone = require('backbone')
   , $ = require('jquery');
 Backbone.$ = $; // fix
-var Marionette = require('marionette');
+var Marionette = require('marionette')
+  , globalChannel = require('./bus/app');
+
 
 //trash
 var Layout = require('./taskManager/layout/layout');
@@ -12,14 +14,18 @@ var TaskView = require('./taskManager/view/taskList');
 
 var app = new Marionette.Application();
 
+globalChannel.listenTo(app, 'all', function () {
+    console.log(arguments);
+  }
+);
+
+
 app.addRegions({
   mainRegion: '#container'
 });
 
 app.addInitializer(function () {
   console.log('i was started!');
-
-
 
   var layout = new Layout();
   this.mainRegion.show(layout);
@@ -32,12 +38,11 @@ app.addInitializer(function () {
   var taskView = new TaskView({collection: tasks});
 
   layout.awaitingTasks.show(taskView);
-
-
-
 });
 
 app.start();
 
+module.exports = app;
 
 window.Marionette = Marionette;
+window.app = app;
