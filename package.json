@@ -16,6 +16,7 @@
     "backbone.localstorage": "^1.1.13",
     "backbone.marionette": "^2.1.0",
     "backbone.radio": "^0.6.0",
+    "bootstrap": "^3.2.0",
     "handlebars": "~1.3.0",
     "jquery": "~2.1.1",
     "underscore": "~1.6.0"

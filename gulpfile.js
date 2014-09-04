@@ -53,6 +53,12 @@ gulp.task('copy', function () {
     .pipe(gulp.dest(paths.dest));
 });
 
+gulp.task('css:bootstrap', function () {
+  gulp.src('node_modules/bootstrap/dist/css/bootstrap.min.css')
+    .pipe(gulp.dest('public/css'))
+
+});
+
 gulp.task('browserify', function () {
   var bundle = browserify('./src/js/app.js');
 
@@ -61,7 +67,7 @@ gulp.task('browserify', function () {
       console.log(err.toString());
       this.emit('end');
     })
-    .pipe(source('app.js'))
+    .pipe(source('js/app.js'))
     .pipe(gulp.dest(paths.dest));
 });
 
@@ -86,7 +92,7 @@ gulp.task('watch', function () {
   gulp.watch([paths.htmlSrc], ['copy']);
 });
 
-gulp.task('start-dev', ['handlebars', 'copy', 'browserify', 'watch']);
+gulp.task('start-dev', ['clean', 'handlebars', 'copy', 'browserify', 'watch']);
 
 //TODO test, concat + minify js tasks
 gulp.task('test', ['clean', 'jshint', 'handlebars', 'browserify']);
