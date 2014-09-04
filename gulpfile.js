@@ -44,7 +44,7 @@ gulp.task('minify-html', function () {
  * removes public folder
  */
 gulp.task('clean', function () {
-  del.sync(paths.dest, {force:true});
+  del.sync(paths.dest, {force: true});
 });
 
 gulp.task('copy', function () {
@@ -53,10 +53,15 @@ gulp.task('copy', function () {
     .pipe(gulp.dest(paths.dest));
 });
 
+//Bootstrap things, rename or replace or refactor
 gulp.task('css:bootstrap', function () {
   gulp.src('node_modules/bootstrap/dist/css/bootstrap.min.css')
-    .pipe(gulp.dest('public/css'))
+    .pipe(gulp.dest('public/css'));
+});
 
+gulp.task('js:bootstrap', function () {
+  gulp.src('node_modules/bootstrap/dist/js/bootstrap.min.js')
+    .pipe(gulp.dest('public/js'));
 });
 
 gulp.task('browserify', function () {
@@ -82,7 +87,8 @@ gulp.task('handlebars', function () {
 gulp.task('server', function () {
   gulp.src('public')
     .pipe(webserver({
-      livereload: true
+      livereload: true,
+      port: 8000
     }));
 });
 
@@ -92,7 +98,9 @@ gulp.task('watch', function () {
   gulp.watch([paths.htmlSrc], ['copy']);
 });
 
-gulp.task('start-dev', ['clean', 'handlebars', 'copy', 'browserify', 'watch']);
+gulp.task('start-dev', ['clean', 'handlebars', 'copy', 'bootstrap', 'browserify', 'watch']);
+
+gulp.task('bootstrap', ['css:bootstrap', 'js:bootstrap']);
 
 //TODO test, concat + minify js tasks
 gulp.task('test', ['clean', 'jshint', 'handlebars', 'browserify']);

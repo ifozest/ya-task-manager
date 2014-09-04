@@ -1,5 +1,6 @@
 var Backbone = require('backbone')
   , $ = require('jquery');
+
 Backbone.$ = $; // fix
 var Marionette = require('marionette')
   , globalChannel = require('./bus/app');
@@ -17,3 +18,7 @@ app.addInitializer(function () {
 
 app.start();
 module.exports = app;
+
+
+window.jQuery = $;
+window.$ = $;

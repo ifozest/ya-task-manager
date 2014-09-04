@@ -1,4 +1,5 @@
 var Backbone = require('backbone')
+  , $ = require('jquery')
   , Radio = require('radio')
   , _ = require('underscore')
   , Layout = require('./../layout/layout');
@@ -12,7 +13,7 @@ var controller = _.extend({}, Radio.Commands, Backbone.Events, {
 //    console.log(new TaskList(stub));
   },
   createTask: function(){
-    console.log(1);
+    $('#myModal').modal();
   }
 });
 
