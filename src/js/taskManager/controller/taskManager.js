@@ -10,6 +10,9 @@ var controller = _.extend({}, Radio.Commands, Backbone.Events, {
   renderTasks: function (layout) {
     console.log(layout.regions);
 //    console.log(new TaskList(stub));
+  },
+  createTask: function(){
+    console.log(1);
   }
 });
 
@@ -17,6 +20,7 @@ controller.comply('show', function (region) {
   console.log('task manager');
   var layout = new Layout();
   this.listenToOnce(layout, 'layout:rendered', this.renderTasks);
+  this.listenTo(layout, 'button:create:task', this.createTask);
   region.show(layout);
 });
 
