@@ -1,3 +1,12 @@
-var Radio = require('radio');
+var Radio = require('radio')
+  , taskManagerController = require('./../taskManager/controller/taskManager');
 
-module.exports = Radio.channel('global');
+
+var globalChannel = Radio.channel('global');
+
+globalChannel.comply('show:taskManager', function (region) {
+  console.log('bus show task manager');
+  taskManagerController.command('show', region);
+});
+
+module.exports = globalChannel;

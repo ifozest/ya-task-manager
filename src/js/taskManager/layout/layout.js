@@ -1,6 +1,17 @@
 var Marionette = require('marionette')
   , template = require('./template/template');
 
+//var TaskList = require('./../../model/task/taskList');
+//var TaskListView = require('./../view/taskList');
+//
+//var stub = [
+//  { title: 'lol', state: 1},
+//  { title: 'lol2', state: 2},
+//  { title: 'lol3', state: 3},
+//  { title: 'lol', state: 1}
+//];
+//
+
 
 module.exports = Marionette.LayoutView.extend({
   template: template,
@@ -16,7 +27,9 @@ module.exports = Marionette.LayoutView.extend({
     'click @ui.button': 'pressButton'
   },
   pressButton: function () {
-    //TODO pass in controller
-    //TODO create new task
+    this.trigger('button:create:task');
+  },
+  onShow: function(){
+    this.trigger('layout:rendered', this);
   }
 });
