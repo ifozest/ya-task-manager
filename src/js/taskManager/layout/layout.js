@@ -1,4 +1,5 @@
 var Marionette = require('marionette')
+  , Modal = require('./../modal/modalRegion')
   , template = require('./template/template');
 
 //var TaskList = require('./../../model/task/taskList');
@@ -18,7 +19,11 @@ module.exports = Marionette.LayoutView.extend({
   regions: {
     awaitingTasks: '#awaitingTasks',
     inProgressTasks: '#inProgressTasks',
-    completedTasks: '#completedTasks'
+    completedTasks: '#completedTasks',
+    modal: {
+      selector: '#modal',
+      regionClass: Modal
+    }
   },
   ui: {
     button: '#createTask'
@@ -27,7 +32,7 @@ module.exports = Marionette.LayoutView.extend({
     'click @ui.button': 'pressButton'
   },
   pressButton: function () {
-    this.trigger('button:create:task');
+    this.trigger('button:create:task', this.modal);
   },
   onShow: function(){
     this.trigger('layout:rendered', this);
