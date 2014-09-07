@@ -8,11 +8,10 @@ module.exports = Marionette.Controller.extend({
     this._initListenEvents();
   },
   showModal: function () {
-    console.log(this.view);
     this.region.show(this.view);
   },
-  createNewTask: function (e) {
-    console.log('createTask');
+  createNewTask: function (value) {
+    console.log(value);
     this.region.closeView();
   },
   _initListenEvents: function () {
