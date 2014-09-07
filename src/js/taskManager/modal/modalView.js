@@ -3,8 +3,8 @@ var Marionette = require('marionette')
 
 
 module.exports = Marionette.ItemView.extend({
-  initialize: function(){
-    this.on('modal:hide', this.resetValue);
+  initialize: function() {
+    this.on('modal:hide', this.onHide);
   },
   tagName: 'div',
   className: 'modal-dialog',
@@ -14,15 +14,15 @@ module.exports = Marionette.ItemView.extend({
     successBtn: '.btn-success'
   },
   events: {
-    'click @ui.successBtn' : 'createTask'
+    'click @ui.successBtn': 'createTask'
   },
-  createTask: function(e){
+  createTask: function(e) {
     this.trigger('create:task', e);
   },
-  onDestroy: function(){
-    console.log('destroy');
+  onDestroy: function() {
+    console.log('destroy');  //Destroy ???
   },
-  resetValue: function(){
+  onHide: function() {
     this.ui.taskTitle.val('');
   }
 
