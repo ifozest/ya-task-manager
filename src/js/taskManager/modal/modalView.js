@@ -3,6 +3,9 @@ var Marionette = require('marionette')
 
 
 module.exports = Marionette.ItemView.extend({
+  initialize: function(){
+    this.on('modal:hide', this.resetValue);
+  },
   tagName: 'div',
   className: 'modal-dialog',
   template: template,
@@ -18,5 +21,9 @@ module.exports = Marionette.ItemView.extend({
   },
   onDestroy: function(){
     console.log('destroy');
+  },
+  resetValue: function(){
+    this.ui.taskTitle.val('');
   }
+
 });

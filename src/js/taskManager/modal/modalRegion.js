@@ -2,6 +2,7 @@ var Marionette = require('marionette')
   , $ = require('jquery');
 
 //On first show overwrites show method
+//maybe pass that into view???
 
 module.exports = Marionette.Region.extend({
   onShow: function() {
@@ -14,6 +15,7 @@ module.exports = Marionette.Region.extend({
     };
   },
   closeView: function() {
+    this.currentView.trigger('modal:hide');
     this.$el.modal('hide');
   },
   showModal: function() {
