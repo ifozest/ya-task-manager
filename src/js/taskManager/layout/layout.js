@@ -19,10 +19,10 @@ module.exports = Marionette.LayoutView.extend({
   events: {
     'click @ui.button': 'pressButton'
   },
-  pressButton: function () {
-    this.trigger('layout:show:modal', this.modal);
+  pressButton: function() {
+    this.trigger('layout:show:modal');
   },
-  onShow: function(){
-    this.trigger('layout:rendered', this);
+  onShow: function() {
+    this.trigger('layout:rendered');
   }
 });
