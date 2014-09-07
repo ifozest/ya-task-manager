@@ -1,32 +1,34 @@
-var Backbone = require('backbone')
-  , Radio = require('radio')
-  , _ = require('underscore')
+var Marionette = require('marionette')
   , Layout = require('./../layout/layout')
-  , modalController = require('./../modal/controller');
+  , ModalController = require('./../modal/controller');
 
-//TODO !!!!! refactor this shit!!!
-var TaskList = require('./../../model/task/taskList');
 
-var ModalView = require('./../modal/modalView');
 
-var controller = _.extend({}, Radio.Commands, Backbone.Events, {
+module.exports = Marionette.Controller.extend({
+  initialize: function(){
+    this.on('show:layout', this.showLayout);
+  },
+  showLayout: function(region){       //TODO hell
+    var layout = new Layout();
+    this.listenToOnce(layout, 'layout:rendered', this.renderTasks);
+    this.listenTo(layout, 'layout:show:modal', this.showModal);
+    region.show(layout);
+  },
   renderTasks: function (layout) {
-    console.log(layout);
-//    console.log(new TaskList(stub));
+    console.log('render tasks');
   },
   showModal: function (region) {
-    modalController.showModal(region);
+    console.log(region.$el);
+    this.listenTo(region, 'all', function () {
+      console.log(arguments);
 
+    });
+
+
+
+//    console.log(this.modalController);
+    this.modalController = this.modalController || new ModalController();
+//    console.log(this.modalController);
+    this.modalController.showModal(region);
   }
 });
-
-controller.comply('show', function (region) {
-  console.log('task manager');
-  var layout = new Layout();
-  this.listenToOnce(layout, 'layout:rendered', this.renderTasks);
-  this.listenTo(layout, 'button:create:task', this.showModal);
-  region.show(layout);
-});
-
-
-module.exports = controller;

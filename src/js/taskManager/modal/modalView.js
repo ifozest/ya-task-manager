@@ -1,13 +1,8 @@
 var Marionette = require('marionette')
-  , template = require('./template/modal')
-  , controller = require('./controller');
+  , template = require('./template/modal');
 
 
 module.exports = Marionette.ItemView.extend({
-  initialize: function(){
-    this.controller = controller;
-  },
-
   tagName: 'div',
   className: 'modal-dialog',
   template: template,
@@ -19,9 +14,9 @@ module.exports = Marionette.ItemView.extend({
     'click @ui.successBtn' : 'createTask'
   },
   createTask: function(e){
-    console.log(require('./controller'));
-    console.log(controller);
-    this.controller.createTask();
-
+    this.trigger('create:task', e);
+  },
+  onDestroy: function(){
+    console.log('destroy');
   }
 });

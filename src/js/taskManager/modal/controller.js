@@ -1,19 +1,28 @@
-var Backbone = require('backbone')
-  , Radio = require('radio')
-  , _ = require('underscore')
+var Marionette = require('marionette')
   , ModalView = require('./modalView');
 
-
-var controller = _.extend({}, Backbone.Events, Radio.Commands, {
-  showModal: function(region){
-    var view = new ModalView();
-    region.show(view);
+module.exports = Marionette.Controller.extend({
+  initialize: function () {
+    console.log('modal controller was created');
+    this.view = new ModalView();
+    this._initListenEvents();
   },
-  createTask: function(){
+  showModal: function (region) {
+    console.log(this.view);
+//    console.log(region);
+    region.show(this.view);
+  },
+  createTask: function (e) {
+    console.log('createTask');
+    console.log(e);
+
+  },
+  _initListenEvents: function () {
+    this.listenTo(this.view, 'create:task', this.createTask);
+//    this.listenTo(this.view, 'all', this.test);
+  },
+  test: function () {
     console.log(arguments);
   }
+
 });
-
-
-
-module.exports = controller;
