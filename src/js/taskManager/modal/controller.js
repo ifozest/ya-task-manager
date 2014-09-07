@@ -2,20 +2,28 @@ var Marionette = require('marionette')
   , ModalView = require('./modalView');
 
 module.exports = Marionette.Controller.extend({
-  initialize: function (options) {
+  initialize: function(options) {
     this.region = options.region;
     this.view = new ModalView();
     this._initListenEvents();
   },
-  showModal: function () {
+  showModal: function() {
     this.region.show(this.view);
   },
-  createNewTask: function (value) {
-    console.log(value);
-    this.region.closeView();
+  createNewTask: function(value) {  //Validate this! properly
+    var title = value.trim();
+    if (this._isValid(title)){
+      //save!
+      this.region.closeView();
+    } else {
+      alert('wrong!');
+    }
   },
-  _initListenEvents: function () {
+  _initListenEvents: function() {
     this.listenTo(this.view, 'create:task', this.createNewTask);
+  },
+  _isValid: function(value) {
+    return !!((value.length > 0 && value.length < 100));
   }
 
 });

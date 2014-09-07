@@ -11,7 +11,7 @@ app.addRegions({
   mainRegion: '#container'
 });
 
-app.addInitializer(function () {
+app.addInitializer(function() {
   console.log('i was started!');
   globalChannel.command('show:taskManager', this.mainRegion);
 });

@@ -23,6 +23,6 @@ module.exports = Marionette.LayoutView.extend({
     this.trigger('layout:show:modal');
   },
   onShow: function() {
-    this.trigger('layout:rendered');
+    this.trigger('layout:render:tasks');
   }
 });

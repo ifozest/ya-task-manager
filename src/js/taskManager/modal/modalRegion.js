@@ -7,7 +7,7 @@ var Marionette = require('marionette')
 
 module.exports = Marionette.Region.extend({
   onShow: function() {
-    this._handleBootstrapEvents();
+    this._handleBsEvents();
     this.showModal();
     this.show = function() {
       this.showModal();
@@ -19,7 +19,7 @@ module.exports = Marionette.Region.extend({
   showModal: function() {
     this.$el.modal({show: true, backdrop: 'static'});
   },
-  _handleBootstrapEvents: function() {
+  _handleBsEvents: function() {
     this.$el.on('shown.bs.modal', function() {
       $(this).find('[autofocus]').focus();
     });

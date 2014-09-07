@@ -8,15 +8,16 @@ module.exports = Marionette.Controller.extend({
     this.on('show:layout', this.showLayout);
   },
   showLayout: function(region) {
-
-
     var layout = new Layout();
     this.layout = layout;
-    this.listenToOnce(layout, 'layout:rendered', this.renderTasks);
+    this.listenToOnce(layout, 'layout:render:tasks', this.renderTasks);
     this.listenTo(layout, 'layout:show:modal', this.showModal);
     region.show(layout);
   },
   renderTasks: function() {
+
+
+
     console.log('render tasks');
   },
   showModal: function() {
