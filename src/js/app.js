@@ -3,7 +3,13 @@ var Backbone = require('backbone')
 
 Backbone.$ = $; // fix
 var Marionette = require('marionette')
+  , Radio = require('radio')
+  , _ = require('underscore')
   , globalChannel = require('./bus/app');
+
+
+//extract this!
+_.extend(Marionette.Controller.prototype, Radio.Commands, Radio.Requests);
 
 var app = new Marionette.Application();
 
@@ -18,7 +24,6 @@ app.addInitializer(function() {
 
 app.start();
 module.exports = app;
-
 
 window.jQuery = $;
 window.$ = $;

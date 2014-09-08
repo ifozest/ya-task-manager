@@ -15,8 +15,7 @@ module.exports = Marionette.Controller.extend({
     region.show(layout);
   },
   renderTasks: function() {
-
-
+    //get taskLists!!!
 
     console.log('render tasks');
   },
