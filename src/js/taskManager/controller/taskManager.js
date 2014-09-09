@@ -2,6 +2,8 @@ var Marionette = require('marionette')
   , Layout = require('./../layout/layout')
   , ModalController = require('./../modal/controller');
 
+var bus = require('./../../bus/app');
+
 
 module.exports = Marionette.Controller.extend({
   initialize: function() {
@@ -16,6 +18,8 @@ module.exports = Marionette.Controller.extend({
   },
   renderTasks: function() {
     //get taskLists!!!
+    console.log(require('./../../bus/app'));
+    console.log(bus);
 
     console.log('render tasks');
   },
