@@ -1,5 +1,5 @@
 var Marionette = require('marionette')
-  , TaskList = require('./../model/task/taskList');
+  , TaskList = require('./task/taskList');
 
 /**
  * well tasks stored in local storage like:
