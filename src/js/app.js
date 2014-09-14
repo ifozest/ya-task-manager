@@ -2,10 +2,7 @@ var Backbone = require('backbone')
   , $ = require('jquery');
 
 Backbone.$ = $; // fix
-var Marionette = require('marionette')
-  , _ = require('underscore')
-  , globalChannel = require('./bus/app');
-
+var Marionette = require('marionette');
 
 
 var app = new Marionette.Application();
