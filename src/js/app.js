@@ -20,4 +20,3 @@ module.exports = app;
 
 window.jQuery = $;
 window.$ = $;
-Radio.DEBUG = true;
