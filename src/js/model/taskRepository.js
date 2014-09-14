@@ -20,7 +20,8 @@ var Marionette = require('marionette')
 var TaskRepository = Marionette.Controller.extend({
   initialize: function() {
     this.localStorage = window.localStorage;
-    this.initTasks();
+    this._initTasks();
+    this._initEvents();
   },
   serialize: function(object) {
     return JSON.stringify(object);
@@ -28,23 +29,29 @@ var TaskRepository = Marionette.Controller.extend({
   deserialize: function(data) {
     return JSON.parse(data);
   },
-  getTasks: function(type) {
+  fetchTasks: function(type) {
     return this.deserialize(this.localStorage.getItem(type));
   },
   saveTasks: function(type) {
     this.localStorage.setItem(type, this.serialize(this.tasks[type]));
   },
-  initTasks: function() {
-    this.tasks = {};
-    this.tasks.awaiting = new TaskList(this.getTasks('awaitining'));
-    this.tasks.inProgress = new TaskList(this.getTasks('inProgress'));
-    this.tasks.completed = new TaskList(this.getTasks('completed'));
+  getTasks: function(){
+    return this.tasks;
   },
   createNewTask: function(title) {
     var newTask = new Task({title: title, id: guid()});
-    this.tasks.awaiting.add(newTask);
-    this.saveTasks('awaiting');
+    this.tasks.todo.add(newTask);
+    this.saveTasks('todo');
     console.log(this.tasks);
+  },
+  _initTasks: function() {
+    this.tasks = {};
+    this.tasks.todo = new TaskList(this.fetchTasks('todo'));
+    this.tasks.doing = new TaskList(this.fetchTasks('doing'));
+    this.tasks.done = new TaskList(this.fetchTasks('done'));
+  },
+  _initEvents: function(){
+    this.on('create:task', this.createNewTask);
   }
 });
 

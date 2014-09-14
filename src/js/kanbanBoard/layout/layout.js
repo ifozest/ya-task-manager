@@ -1,16 +1,16 @@
 var Marionette = require('marionette')
-  , Modal = require('./../modal/modalRegion')
+  , ModalRegion = require('./../modal/modalRegion')
   , template = require('./template/template');
 
 module.exports = Marionette.LayoutView.extend({
   template: template,
   regions: {
-    awaitingTasks: '#awaitingTasks',
-    inProgressTasks: '#inProgressTasks',
-    completedTasks: '#completedTasks',
+    todo: '#todo',
+    doing: '#doing',
+    done: '#done',
     modal: {
       selector: '#modal',
-      regionClass: Modal
+      regionClass: ModalRegion
     }
   },
   ui: {

@@ -1,5 +1,4 @@
 var Marionette = require('marionette')
-  , _ = require('underscore')
   , $ = require('jquery');
 
 //On first show overwrites show method
