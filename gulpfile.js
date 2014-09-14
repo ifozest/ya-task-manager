@@ -64,6 +64,13 @@ gulp.task('js:bootstrap', function () {
     .pipe(gulp.dest('public/js'));
 });
 
+gulp.task('fonts:bootstrap', function () {
+  gulp.src('node_modules/bootstrap/fonts/**')
+    .pipe(gulp.dest('public/fonts'));
+});
+
+
+
 gulp.task('browserify', function () {
   var bundle = browserify('./src/js/app.js');
 
@@ -100,7 +107,7 @@ gulp.task('watch', function () {
 
 gulp.task('start-dev', ['clean', 'handlebars', 'copy', 'bootstrap', 'browserify', 'watch']);
 
-gulp.task('bootstrap', ['css:bootstrap', 'js:bootstrap']);
+gulp.task('bootstrap', ['css:bootstrap', 'js:bootstrap', 'fonts:bootstrap']);
 
 //TODO test, concat + minify js tasks
 gulp.task('test', ['clean', 'jshint', 'handlebars', 'browserify']);
