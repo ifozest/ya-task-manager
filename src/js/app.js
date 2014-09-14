@@ -2,7 +2,8 @@ var Backbone = require('backbone')
   , $ = require('jquery');
 
 Backbone.$ = $; // fix
-var Marionette = require('marionette');
+var Marionette = require('marionette')
+  , MainController = require('./controller/mainController');
 
 
 var app = new Marionette.Application();
@@ -13,6 +14,8 @@ app.addRegions({
 
 app.addInitializer(function() {
   console.log('i was started!');
+  var controller = new MainController();
+  controller.renderKanbanBoard(this.mainRegion);
 });
 
 app.start();

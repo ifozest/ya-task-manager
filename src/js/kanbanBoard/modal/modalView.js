@@ -16,9 +16,9 @@ module.exports = Marionette.ItemView.extend({
   events: {
     'click @ui.successBtn': 'createTask'
   },
-  createTask: function(e) {
+  createTask: function() {
     var taskTitle = this.ui.taskTitle.val();
-    this.trigger('create:task', taskTitle);
+    this.trigger('btn:clicked:create:task', taskTitle);
   },
   onDestroy: function() {
     console.log('destroy');  //Destroy ???

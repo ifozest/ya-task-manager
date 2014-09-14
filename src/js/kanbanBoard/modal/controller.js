@@ -13,17 +13,16 @@ module.exports = Marionette.Controller.extend({
   createNewTask: function(value) {  //Validate this! properly
     var title = value.trim();
     if (this._isValid(title)){
-      //save!
+      this.trigger('create:task', title);
       this.region.closeView();
     } else {
       alert('wrong!');
     }
   },
   _initListenEvents: function() {
-    this.listenTo(this.view, 'create:task', this.createNewTask);
+    this.listenTo(this.view, 'btn:clicked:create:task', this.createNewTask);
   },
   _isValid: function(value) {
     return !!((value.length > 0 && value.length < 100));
   }
-
 });

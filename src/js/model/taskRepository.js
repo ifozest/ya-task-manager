@@ -1,7 +1,10 @@
 var Marionette = require('marionette')
-  , TaskList = require('./task/taskList');
+  , TaskList = require('./task/taskList')
+  , Task = require('./task/task')
+  , guid = require('./../utils/idGenerator');
 
 /**
+ *
  * well tasks stored in local storage like:
  * localStorage: {
  *    awaitingTasks: "[]",
@@ -10,11 +13,11 @@ var Marionette = require('marionette')
  * }
  *
  *
- * @type {*}
+ * @type
  */
 
 
-module.exports = Marionette.Controller.extend({
+var TaskRepository = Marionette.Controller.extend({
   initialize: function() {
     this.localStorage = window.localStorage;
     this.initTasks();
@@ -28,13 +31,21 @@ module.exports = Marionette.Controller.extend({
   getTasks: function(type) {
     return this.deserialize(this.localStorage.getItem(type));
   },
-  saveTasks: function() {
-
+  saveTasks: function(type) {
+    this.localStorage.setItem(type, this.serialize(this.tasks[type]));
   },
   initTasks: function() {
     this.tasks = {};
     this.tasks.awaiting = new TaskList(this.getTasks('awaitining'));
     this.tasks.inProgress = new TaskList(this.getTasks('inProgress'));
     this.tasks.completed = new TaskList(this.getTasks('completed'));
+  },
+  createNewTask: function(title) {
+    var newTask = new Task({title: title, id: guid()});
+    this.tasks.awaiting.add(newTask);
+    this.saveTasks('awaiting');
+    console.log(this.tasks);
   }
 });
+
+module.exports = new TaskRepository();
