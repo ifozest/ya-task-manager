@@ -16,6 +16,12 @@ var Marionette = require('marionette')
  * @type
  */
 
+var types = {
+  1: 'todo',
+  2: 'doing',
+  3: 'done'
+};
+
 
 var TaskRepository = Marionette.Controller.extend({
   initialize: function() {
@@ -43,6 +49,13 @@ var TaskRepository = Marionette.Controller.extend({
     this.tasks.todo.add(newTask);
     this.saveTasks('todo');
     console.log(this.tasks);
+  },
+  removeTask: function(task){
+    var model = task.toJSON()
+      , type = types[model.state]
+      , taskList = this.tasks[type];
+    taskList.remove(task);
+    this.saveTasks(type);
   },
   _initTasks: function() {
     this.tasks = {};

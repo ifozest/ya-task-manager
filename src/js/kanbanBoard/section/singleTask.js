@@ -4,5 +4,11 @@ var Marionette = require('marionette')
 
 module.exports = Marionette.ItemView.extend({
   tagName: 'li',
-  template: template
+  template: template,
+  events: {
+    'click .glyphicon-remove': 'removeTask'
+  },
+  removeTask: function() {
+    this.trigger('remove:task');
+  }
 });

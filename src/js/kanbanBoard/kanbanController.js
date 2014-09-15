@@ -1,10 +1,8 @@
 var Marionette = require('marionette')
   , tasksRepository = require('./../model/taskRepository')
+  , SectionController = require('./section/controller')
   , ModalController = require('./modal/controller')
   , LayoutController = require('./layout/controller');
-
-
-var TaskListView = require('./view/taskList');
 
 module.exports = Marionette.Controller.extend({
   renderKanbanBoard: function(region){
@@ -15,11 +13,10 @@ module.exports = Marionette.Controller.extend({
   },
   renderTasks: function(layout){
     var tasks = tasksRepository.getTasks();
-    console.log(tasks);
     for (var taskList in tasks){
-      console.log(tasks[taskList]);
-      var taskListView = new TaskListView({collection: tasks[taskList]});
-      layout[taskList].show(taskListView);
+      var sectionController = new SectionController();
+      sectionController.renderSection(layout[taskList], tasks[taskList]);
+      this.listenTo(sectionController, 'remove:task', this.removeTask);
 
     }
 
@@ -28,11 +25,14 @@ module.exports = Marionette.Controller.extend({
 
   },
   showModal: function(region){
-    var modalController = new ModalController({region:region});
+    var modalController = new ModalController({region: region});
     this.listenTo(modalController, 'create:task', this.createTask);
-    modalController.showModal(region);
+    modalController.showModal();
   },
   createTask: function(title){
     tasksRepository.createNewTask(title);
+  },
+  removeTask: function(task){
+    tasksRepository.removeTask(task);
   }
 });
