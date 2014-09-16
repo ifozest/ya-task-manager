@@ -16,29 +16,18 @@ module.exports = Marionette.Controller.extend({
     for (var taskList in tasks){
       var sectionController = new SectionController();
       sectionController.renderSection(layout[taskList], tasks[taskList]);
-      this.listenTo(sectionController, 'remove:task', this.removeTask);
-      this.listenTo(sectionController, 'progress:task', this.progressTask);
-      this.listenTo(sectionController, 'regress:task', this.regressTask);
+      this.listenTo(sectionController, 'task:action', this.taskAction);
     }
-  },
-  renderSection: function(){
-
   },
   showModal: function(region){
     var modalController = new ModalController({region: region});
     this.listenTo(modalController, 'create:task', this.createTask);
     modalController.showModal();
   },
-  progressTask: function(task){
-    tasksRepository.progressTask(task);
-  },
-  regressTask: function(task){
-    tasksRepository.regressTask(task);
+  taskAction: function(task, action){
+    tasksRepository.process(task, action);
   },
   createTask: function(title){
     tasksRepository.createNewTask(title);
-  },
-  removeTask: function(task){
-    tasksRepository.removeTask(task);
   }
 });

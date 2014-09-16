@@ -1,6 +1,7 @@
 var Marionette = require('marionette')
   , TaskList = require('./task/taskList')
   , Task = require('./task/task')
+  , _ = require('underscore')
   , guid = require('./../utils/idGenerator');
 
 /**
@@ -16,14 +17,10 @@ var Marionette = require('marionette')
  * @type
  */
 
-types = ['todo', 'doing', 'done'];
-
-
 var TaskRepository = Marionette.Controller.extend({
   initialize: function() {
     this.localStorage = window.localStorage;
     this._initTasks();
-    this._initEvents();
   },
   serialize: function(object) {
     return JSON.stringify(object);
@@ -36,6 +33,7 @@ var TaskRepository = Marionette.Controller.extend({
   },
   saveTasks: function(type) {
     this.localStorage.setItem(type, this.serialize(this.tasks[type]));
+    return this;
   },
   getTasks: function(){
     return this.tasks;
@@ -44,59 +42,44 @@ var TaskRepository = Marionette.Controller.extend({
     var newTask = new Task({title: title, id: guid()});
     this.tasks.todo.add(newTask);
     this.saveTasks('todo');
+    return newTask;
   },
-  progressTask: function(task){
-    var modelType = task.toJSON().state
-      , type = types[modelType]
-      , previousTaskList = this.tasks[type]
-      , newModelType = modelType + 1
-      , newType = types[newModelType]
+  process: function(task, action){
+    var states = ['todo', 'doing', 'done']
+      , modelState = task.toJSON().state
+      , collectionState = states[modelState]
+      , currentTaskList = this.tasks[collectionState]
+      , newModelState
+      , newCollectionState
       , newTaskList;
 
-    if (newModelType > (types.length-1)){
-      return;
+    if (action === 'progress'){
+      newModelState = modelState + 1;
+      if (newModelState > (states.length - 1)){
+        return;
+      }
+    } else if(action === 'regress'){
+      newModelState = modelState - 1;
+      if (newModelState < 0){
+        return;
+      }
     }
-    newTaskList = this.tasks[newType];
-    previousTaskList.remove(task);
-    task.set('state', newModelType);
-    newTaskList.add(task);
-    this.saveTasks(type);
-    this.saveTasks(newType);
-
-  },
-  regressTask: function(task){
-    var modelType = task.toJSON().state
-      , type = types[modelType]
-      , previousTaskList = this.tasks[type]
-      , newModelType = modelType - 1
-      , newType = types[newModelType]
-      , newTaskList;
-
-    if (newModelType < 0){
-      return;
+    newCollectionState = states[newModelState];
+    newTaskList = this.tasks[newCollectionState];
+    if(!_.isUndefined(newTaskList)){
+      task.set('state', newModelState);
+      newTaskList.add(task);
+      this.saveTasks(newCollectionState);
     }
-    newTaskList = this.tasks[newType];
-    previousTaskList.remove(task);
-    task.set('state', newModelType);
-    newTaskList.add(task);
-    this.saveTasks(type);
-    this.saveTasks(newType);
-  },
-  removeTask: function(task){
-    var modelType = task.toJSON().state
-      , type = types[modelType]
-      , taskList = this.tasks[type];
-    taskList.remove(task);
-    this.saveTasks(type);
+    currentTaskList.remove(task);
+    this.saveTasks(collectionState);
+
   },
   _initTasks: function() {
     this.tasks = {};
     this.tasks.todo = new TaskList(this.fetchTasks('todo'));
     this.tasks.doing = new TaskList(this.fetchTasks('doing'));
     this.tasks.done = new TaskList(this.fetchTasks('done'));
-  },
-  _initEvents: function(){
-    this.on('create:task', this.createNewTask);
   }
 });
 

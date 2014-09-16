@@ -1,4 +1,5 @@
-var Marionette = require('marionette'), template = require('./template/task');
+var Marionette = require('marionette')
+  , template = require('./template/task');
 
 module.exports = Marionette.ItemView.extend({
   tagName: 'li',
@@ -9,12 +10,12 @@ module.exports = Marionette.ItemView.extend({
     'click .glyphicon-arrow-left': 'regressTask'
   },
   removeTask: function () {
-    this.trigger('remove:task');
+    this.trigger('task:action', 'remove');
   },
   progressTask: function () {
-    this.trigger('progress:task');
+    this.trigger('task:action', 'progress');
   },
   regressTask: function(){
-    this.trigger('regress:task');
+    this.trigger('task:action', 'regress');
   }
 });
