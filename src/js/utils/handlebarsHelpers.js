@@ -11,5 +11,3 @@ Handlebars.registerHelper('isRegressive', function(object, options){
     return options.fn(this);
   }
 });
-
-//module.exports = Handlebars;

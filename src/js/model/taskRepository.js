@@ -46,6 +46,7 @@ var TaskRepository = Marionette.Controller.extend({
   },
   process: function(task, action){
     var states = ['todo', 'doing', 'done']
+      , leaveOnPage = (action !== 'remove')
       , modelState = task.toJSON().state
       , collectionState = states[modelState]
       , currentTaskList = this.tasks[collectionState]
@@ -53,27 +54,28 @@ var TaskRepository = Marionette.Controller.extend({
       , newCollectionState
       , newTaskList;
 
-    if (action === 'progress'){
-      newModelState = modelState + 1;
-      if (newModelState > (states.length - 1)){
-        return;
+    if (leaveOnPage) {
+      if (action === 'progress') {
+        newModelState = modelState + 1;
+        if (newModelState > (states.length - 1)) {
+          return;
+        }
+      } else if (action === 'regress') {
+        newModelState = modelState - 1;
+        if (newModelState < 0) {
+          return;
+        }
       }
-    } else if(action === 'regress'){
-      newModelState = modelState - 1;
-      if (newModelState < 0){
-        return;
-      }
+      newCollectionState = states[newModelState];
+      newTaskList = this.tasks[newCollectionState];
     }
-    newCollectionState = states[newModelState];
-    newTaskList = this.tasks[newCollectionState];
-    if(!_.isUndefined(newTaskList)){
+    currentTaskList.remove(task);
+    if (leaveOnPage) {
       task.set('state', newModelState);
       newTaskList.add(task);
       this.saveTasks(newCollectionState);
     }
-    currentTaskList.remove(task);
     this.saveTasks(collectionState);
-
   },
   _initTasks: function() {
     this.tasks = {};
