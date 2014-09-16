@@ -16,11 +16,7 @@ var Marionette = require('marionette')
  * @type
  */
 
-var types = {
-  1: 'todo',
-  2: 'doing',
-  3: 'done'
-};
+types = ['todo', 'doing', 'done'];
 
 
 var TaskRepository = Marionette.Controller.extend({
@@ -48,11 +44,47 @@ var TaskRepository = Marionette.Controller.extend({
     var newTask = new Task({title: title, id: guid()});
     this.tasks.todo.add(newTask);
     this.saveTasks('todo');
-    console.log(this.tasks);
+  },
+  progressTask: function(task){
+    var modelType = task.toJSON().state
+      , type = types[modelType]
+      , previousTaskList = this.tasks[type]
+      , newModelType = modelType + 1
+      , newType = types[newModelType]
+      , newTaskList;
+
+    if (newModelType > (types.length-1)){
+      return;
+    }
+    newTaskList = this.tasks[newType];
+    previousTaskList.remove(task);
+    task.set('state', newModelType);
+    newTaskList.add(task);
+    this.saveTasks(type);
+    this.saveTasks(newType);
+
+  },
+  regressTask: function(task){
+    var modelType = task.toJSON().state
+      , type = types[modelType]
+      , previousTaskList = this.tasks[type]
+      , newModelType = modelType - 1
+      , newType = types[newModelType]
+      , newTaskList;
+
+    if (newModelType < 0){
+      return;
+    }
+    newTaskList = this.tasks[newType];
+    previousTaskList.remove(task);
+    task.set('state', newModelType);
+    newTaskList.add(task);
+    this.saveTasks(type);
+    this.saveTasks(newType);
   },
   removeTask: function(task){
-    var model = task.toJSON()
-      , type = types[model.state]
+    var modelType = task.toJSON().state
+      , type = types[modelType]
       , taskList = this.tasks[type];
     taskList.remove(task);
     this.saveTasks(type);

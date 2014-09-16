@@ -12,4 +12,4 @@ Handlebars.registerHelper('isRegressive', function(object, options){
   }
 });
 
-module.exports = Handlebars;
+//module.exports = Handlebars;
