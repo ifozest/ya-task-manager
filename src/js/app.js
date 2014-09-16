@@ -4,7 +4,7 @@ var Backbone = require('backbone')
 Backbone.$ = $; // fix
 var Marionette = require('marionette')
   , MainController = require('./controller/mainController');
-
+require('./utils/handlebarsHelpers');
 
 var app = new Marionette.Application();
 
